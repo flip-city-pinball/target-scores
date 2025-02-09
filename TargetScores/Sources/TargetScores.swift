@@ -19,7 +19,7 @@ struct TargetScores: AsyncParsableCommand {
             print(machine.name)
             for rating in ratings {
                 let score = try await PinScores.getScore(machineID: machine.opdbId, rating: rating)
-                print(" -", rating, "->", score)
+                print(" -", rating, "->", score.score.rounded.prettyString)
             }
 
         }
