@@ -13,7 +13,7 @@ struct TargetScores: AsyncParsableCommand {
     mutating func run() async throws {
         let location = try await PinballMap.fetchMachines(pinballMapID: "866")
 
-        let ratings: [Double] = [0.5, 1, 2.5, 4.5, 6, 8]
+        let ratings: [Double] = [8, 9, 9.1, 9.3, 9.7]
 
         for machine in location.machines {
             print(machine.name)
