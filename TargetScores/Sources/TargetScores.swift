@@ -19,7 +19,7 @@ struct TargetScores: AsyncParsableCommand {
     @Flag(help: "Only show scores.")
     var onlyScores: Bool = false
 
-    @Flag(help: "Scores are rounded down after 2 orders of magnitude")
+    @Flag(help: "Scores are rounded down after 2 orders of magnitude.")
     var rounded: Bool = false
 
     mutating func run() async throws {
