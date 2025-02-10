@@ -49,6 +49,7 @@ func getLocationMachines(pinballMapID: String) async throws -> LocationMachines 
 
 // MARK: URL Request
 func request<T: Decodable>(url string: String) async throws -> T {
+
     guard let url = URL(string: string) else {
         throw URLError(.badURL)
     }

@@ -21,6 +21,7 @@ extension Int {
 
     /// Round down after 2 orders of magnitude
     var rounded: Int {
+        guard self > 0 else { return 0 }
         let magnitude = Int(log10l(Double(self)))
         let factor = pow(10.0, Double(magnitude - 1))
         let rounded = Int(round(Double(self) / factor) * factor)
