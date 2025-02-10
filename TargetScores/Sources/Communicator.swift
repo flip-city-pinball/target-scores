@@ -8,11 +8,12 @@
 import Foundation
 
 // MARK: - PinScores
-/// https://pinscores.net/api/v1/equivalentscore?machineid=[OPDB ID]&rating=[Rating]
+
 struct Score: Decodable {
     let score: Int
 }
 
+/// https://pinscores.net/api/v1/equivalentscore?machineid=[OPDB ID]&rating=[Rating]
 func getScore(machineID: String, rating: Double) async throws -> Score {
 
     let id = {
@@ -29,7 +30,6 @@ func getScore(machineID: String, rating: Double) async throws -> Score {
 
 // MARK: - Pinball Map
 
-/// https://pinballmap.com/api/v1/docs/1.0/locations/machine_details.html
 struct LocationMachines: Decodable {
     let machines: [Machine]
 
@@ -42,6 +42,7 @@ struct LocationMachines: Decodable {
     }
 }
 
+/// https://pinballmap.com/api/v1/docs/1.0/locations/machine_details.html
 func getLocationMachines(pinballMapID: String) async throws -> LocationMachines {
     try await request(url: "https://pinballmap.com/api/v1/locations/\(pinballMapID)/machine_details.json")
 }

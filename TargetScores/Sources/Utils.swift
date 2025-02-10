@@ -19,7 +19,7 @@ let numberFormatter = {
 
 extension Int {
 
-    /// Round down after first 2 digits
+    /// Round down after 2 orders of magnitude
     var rounded: Int {
         let magnitude = Int(log10l(Double(self)))
         let factor = pow(10.0, Double(magnitude - 1))
@@ -27,7 +27,6 @@ extension Int {
         return rounded
     }
 
-    /// Round down after first 2 digits
     var prettyString: String {
         numberFormatter.string(for: self) ?? String(self)
     }
