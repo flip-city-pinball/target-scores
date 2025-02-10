@@ -1,6 +1,6 @@
 # Target Scores
 
-Tool for generating custom sets of ratings from [pinscores.net](https://pinscores.net).
+Tool for generating custom sets of ratings from [pinscores.net](https://pinscores.net) using location data from [pinballmap.com](https://github.com/pinballmap/pbm).
 
 ### Usage
 
