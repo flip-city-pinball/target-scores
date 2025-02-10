@@ -10,19 +10,35 @@ import ArgumentParser
 @main
 struct TargetScores: AsyncParsableCommand {
 
-    mutating func run() async throws {
-        let location = try await PinballMap.fetchMachines(pinballMapID: "866")
+    @Argument(help: "Pinball Map location id.")
+    var id: String
 
-        let ratings: [Double] = [8, 9, 9.1, 9.3, 9.7]
+    @Argument(help: "Comma delimited array of ratings.")
+    var ratings: String
+
+    @Flag(help: "Only show scores.")
+    var onlyScores: Bool = false
+
+    @Flag(help: "Scores are rounded down after 2 orders of magnitude")
+    var rounded: Bool = false
+
+    mutating func run() async throws {
+
+        let location = try await PinballMap.fetchMachines(pinballMapID: id)
+
+        let ratings: [Double] = ratings.split(separator: ",").map { Double($0) ?? 0 }.sorted { $1 > $0 }
 
         for machine in location.machines {
             print(machine.name)
-            for rating in ratings {
+            for (offset, rating) in ratings.enumerated().reversed() {
                 let score = try await PinScores.getScore(machineID: machine.opdbId, rating: rating)
-                print(" -", rating, "->", score.score.rounded.prettyString)
+                let roundedScore = rounded ? score.score.rounded : score.score
+                if onlyScores == true {
+                    print(roundedScore.prettyString)
+                } else {
+                    print(" ", offset + 1, "—", roundedScore.prettyString, "(\(rating))")
+                }
             }
-
         }
-
     }
 }
