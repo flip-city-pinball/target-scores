@@ -29,14 +29,22 @@ struct TargetScores: AsyncParsableCommand {
         let ratings: [Double] = ratings.split(separator: ",").map { Double($0) ?? 0 }.sorted { $1 > $0 }
 
         for machine in location.machines {
+
             print(machine.name)
+            
+            if onlyScores == false {
+                print("\u{0009}- id: \(machine.opdb_id)")
+                print("\u{0009}- scores:")
+            }
+
             for (offset, rating) in ratings.enumerated().reversed() {
                 let score = try await getScore(machineID: machine.opdb_id, rating: rating)
                 let roundedScore = rounded ? score.score.rounded : score.score
                 if onlyScores == true {
                     print(roundedScore.prettyString)
                 } else {
-                    print(" ", offset + 1, "—", roundedScore.prettyString, "(\(rating))")
+                    let string = ["\(offset + 1)", roundedScore.prettyString, "(\(rating))"]
+                    print("\u{0009}\u{0009}" + string.joined(separator: "\u{0009}"))
                 }
             }
         }
