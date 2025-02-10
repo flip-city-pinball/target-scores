@@ -24,14 +24,14 @@ struct TargetScores: AsyncParsableCommand {
 
     mutating func run() async throws {
 
-        let location = try await PinballMap.fetchMachines(pinballMapID: id)
+        let location = try await getLocationMachines(pinballMapID: id)
 
         let ratings: [Double] = ratings.split(separator: ",").map { Double($0) ?? 0 }.sorted { $1 > $0 }
 
         for machine in location.machines {
             print(machine.name)
             for (offset, rating) in ratings.enumerated().reversed() {
-                let score = try await PinScores.getScore(machineID: machine.opdbId, rating: rating)
+                let score = try await getScore(machineID: machine.opdb_id, rating: rating)
                 let roundedScore = rounded ? score.score.rounded : score.score
                 if onlyScores == true {
                     print(roundedScore.prettyString)
