@@ -17,9 +17,17 @@ let numberFormatter = {
     return numberFormatter
 }()
 
+let ratingFormatter = {
+    let numberFormatter = NumberFormatter()
+    numberFormatter.maximumFractionDigits = 3
+    numberFormatter.minimumFractionDigits = 0
+    numberFormatter.minimumIntegerDigits = 1
+    return numberFormatter
+}()
+
 extension Int {
 
-    /// Round down after 2 orders of magnitude
+    /// Round down after 3 orders of magnitude
     var rounded: Int {
         guard self > 0 else { return 0 }
         let magnitude = Int(log10l(Double(self)))

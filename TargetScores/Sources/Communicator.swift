@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import PinballMap
 
 // MARK: - PinScores
 
@@ -13,38 +14,40 @@ struct Score: Decodable {
     let score: Int
 }
 
-/// https://pinscores.net/api/v1/equivalentscore?machineid=[OPDB ID]&rating=[Rating]
-func getScore(machineID: String, rating: Double) async throws -> Score {
+struct Rating: Decodable {
+    let rating: Double
+}
 
-    let id = {
-        let components = machineID.split(separator: "-")
+extension String {
+    func normalizeID() -> String {
+        let components = self.split(separator: "-")
         if components.count >= 2 {
             let prefix = components.prefix(2).joined(separator: "-")
             return prefix
         }
-        return machineID
-    }()
+        return self
+    }
+}
+
+/// https://pinscores.net/api/v1/equivalentscore?machineid=[OPDB ID]&rating=[Rating]
+func getScore(machineID: String, rating: Double) async throws -> Score {
+
+    let id = machineID.normalizeID()
 
     return try await request(url: "https://pinscores.net/api/v1/equivalentscore?machineid=\(id)&rating=\(rating)")
 }
 
+func getRating(machineID: String, score: Int) async throws -> Rating {
+    let id = machineID.normalizeID()
+    return try await request(url: "https://pinscores.net/api/v1/rating?machineid=\(id)&score=\(score)")
+}
+
 // MARK: - Pinball Map
 
-struct LocationMachines: Decodable {
-    let machines: [Machine]
-
-    struct Machine: Codable {
-        let id: Int
-        let name: String
-        let year: Int
-        let manufacturer: String
-        let opdb_id: String
-    }
-}
 
 /// https://pinballmap.com/api/v1/docs/1.0/locations/machine_details.html
 func getLocationMachines(pinballMapID: String) async throws -> LocationMachines {
-    try await request(url: "https://pinballmap.com/api/v1/locations/\(pinballMapID)/machine_details.json")
+    try await PinballMap.request(.locationMachines(id: UInt(pinballMapID) ?? 0))
 }
 
 // MARK: URL Request
@@ -55,7 +58,6 @@ func request<T: Decodable>(url string: String) async throws -> T {
     }
 
     let (data, _) = try await URLSession.shared.data(from: url)
-
     let posts = try JSONDecoder().decode(T.self, from: data)
     return posts
 }

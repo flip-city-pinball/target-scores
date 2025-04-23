@@ -6,6 +6,7 @@
 //
 
 import ArgumentParser
+import PinballMap
 
 @main
 struct TargetScores: AsyncParsableCommand {
@@ -23,30 +24,36 @@ struct TargetScores: AsyncParsableCommand {
     var rounded: Bool = false
 
     mutating func run() async throws {
-
-        let location = try await getLocationMachines(pinballMapID: id)
-
         let ratings: [Double] = ratings.split(separator: ",").map { Double($0) ?? 0 }.sorted { $1 > $0 }
-
+        let location = try await getLocationMachines(pinballMapID: id)
         for machine in location.machines {
+            try await renderMachine(machine: machine, ratings: ratings)
+        }
+    }
 
-            print(machine.name)
-            
-            if onlyScores == false {
-                print("\u{0009}- id: \(machine.opdb_id)")
-                print("\u{0009}- scores:")
-            }
+    func renderMachine(machine: LocationMachines.Machine, ratings: [Double]) async throws {
+        print(machine.name)
 
-            for (offset, rating) in ratings.enumerated().reversed() {
-                let score = try await getScore(machineID: machine.opdb_id, rating: rating)
-                let roundedScore = rounded ? score.score.rounded : score.score
-                if onlyScores == true {
-                    print(roundedScore.prettyString)
-                } else {
-                    let string = ["\(offset + 1)", roundedScore.prettyString, "(\(rating))"]
-                    print("\u{0009}\u{0009}" + string.joined(separator: "\u{0009}"))
-                }
+        if onlyScores == false {
+            print(" - id: \(machine.opdb_id)")
+            print(" - scores:")
+        }
+
+        for (offset, rating) in ratings.enumerated().reversed() {
+            let score = try await getScore(machineID: machine.opdb_id, rating: rating)
+
+            let roundedScore = rounded ? score.score.rounded : score.score
+
+            let newRating = try await getRating(machineID: machine.opdb_id, score: roundedScore)
+
+            if onlyScores == true {
+                print(roundedScore.prettyString)
+            } else {
+                let string = ["\(offset + 1)","—", roundedScore.prettyString, "(\(ratingFormatter.string(for: newRating.rating)!))"]
+                print("    " + string.joined(separator: "\u{0009}"))
             }
         }
+
+        print("")
     }
 }

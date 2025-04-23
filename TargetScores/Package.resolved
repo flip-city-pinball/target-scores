@@ -1,6 +1,15 @@
 {
-  "originHash" : "0922a3654ded82fc3db4f996afb90b0eef1b7455fea68d6a42146dbd07553933",
+  "originHash" : "ac707ec9a809eec14ebdf614734a941163995932514077ce4368c3897de93d17",
   "pins" : [
+    {
+      "identity" : "pbm-swift",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/iscrz/pbm-swift",
+      "state" : {
+        "revision" : "e5005fccd8b9ffb74a7a8437f9e28eacd186110f",
+        "version" : "1.0.0"
+      }
+    },
     {
       "identity" : "swift-argument-parser",
       "kind" : "remoteSourceControl",
