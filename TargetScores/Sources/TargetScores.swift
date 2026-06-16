@@ -27,7 +27,13 @@ struct TargetScores: AsyncParsableCommand {
         let ratings: [Double] = ratings.split(separator: ",").map { Double($0) ?? 0 }.sorted { $1 > $0 }
         let location = try await getLocationMachines(pinballMapID: id)
         for machine in location.machines {
-            try await renderMachine(machine: machine, ratings: ratings)
+            do {
+                try await renderMachine(machine: machine, ratings: ratings)
+            } catch {
+                print("Error:", machine.name, error)
+            }
+
+            print("")
         }
     }
 
@@ -53,7 +59,5 @@ struct TargetScores: AsyncParsableCommand {
                 print("    " + string.joined(separator: "\u{0009}"))
             }
         }
-
-        print("")
     }
 }

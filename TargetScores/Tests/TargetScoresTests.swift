@@ -42,13 +42,13 @@ struct TargetScoresTests {
 
     @Test
     func numbers() {
-        var double = 0.25
+        var double = 0.1
         var array: [Double] = []
 
         for i in 1...10 {
             print(double)
             array.append(double)
-            double += 1.55 * ((11 - Double(i))/11)
+            double += 1.90 * ((11 - Double(i))/11)
 
             // double += 0.677 + (Double(i)/8.0) for 8
             // double += 0.93 + (Double(i)/8.0) with 7
@@ -69,7 +69,7 @@ struct TargetScoresTests {
     @Test
     func linear() {
         var start = 0.1
-        let end = 8.0
+        let end = 9.6
         let total = 10
         var array: [Double] = []
         
@@ -87,5 +87,10 @@ struct TargetScoresTests {
         // 0.75,1.552,2.479,3.531,4.708,6.01,7.4369,8.9889
         // 0.75,1.805,2.985,4.29,5.72,7.275,8.955 // double += 0.93 + (Double(i)/8.0) with 7
         // 0.25,1.87,3.31,4.57,5.65,6.55,7.27,7.815,8.17,8.35
+
+        // 10804 0.1,0.978,1.856,2.733,3.611,4.489,5.367,6.244,7.122,8 --rounded --only-scores
+
+        // Targe Alpha Open
+        // 10804 0.1,1,1.6,2.5,3.5,4.5,5,8,9.0,9.8 --rounded --only-scores
     }
 }
