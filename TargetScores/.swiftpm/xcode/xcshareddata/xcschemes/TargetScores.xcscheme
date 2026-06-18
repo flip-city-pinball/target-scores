@@ -68,8 +68,16 @@
             isEnabled = "NO">
          </CommandLineArgument>
          <CommandLineArgument
+            argument = "10804 0.1,1,1.6,2.5,3.5,4.5,5,7.7,8.9,9.5 --rounded --only-scores"
+            isEnabled = "NO">
+         </CommandLineArgument>
+         <CommandLineArgument
             argument = "10804 0.1,0.95,1.8,2.65,3.5,4.35,5.2,6.05,6.9,7.75 --rounded"
             isEnabled = "NO">
+         </CommandLineArgument>
+         <CommandLineArgument
+            argument = "10804 0.5,1.2,2,3,4.2,5.1,6.5,7.6,8.9,9.55 --rounded --only-scores --csv"
+            isEnabled = "YES">
          </CommandLineArgument>
          <CommandLineArgument
             argument = "10804 0.1,0.978,1.856,2.733,3.611,4.489,5.367,6.244,7.122,8 --rounded --only-scores"
@@ -113,7 +121,7 @@
          </CommandLineArgument>
          <CommandLineArgument
             argument = "10804 0.1,1,1.6,2.5,3.5,4.5,5,8,9.0,9.8 --rounded --only-scores"
-            isEnabled = "YES">
+            isEnabled = "NO">
          </CommandLineArgument>
       </CommandLineArguments>
    </LaunchAction>
